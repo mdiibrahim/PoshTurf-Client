@@ -1,5 +1,11 @@
+import MainLayout from "./components/layouts/MainLayout";
+
 function App() {
-  return <h1 className="text-7xl font-bold underline">Hello PoshTurf</h1>;
+  return (
+    <div className=" min-h-screen w-full ">
+      <MainLayout />
+    </div>
+  );
 }
 
 export default App;
