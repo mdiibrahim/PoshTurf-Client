@@ -22,9 +22,9 @@ const BookingsSection: React.FC = () => {
             key={booking.id}
             className="bg-white p-4 mb-4 shadow-lg rounded-lg"
           >
-            <h4 className="font-bold">{booking.facilityName}</h4>
+            <h4 className="font-bold">{booking.facility}</h4>
             <p>Date: {new Date(booking.date).toLocaleDateString()}</p>
-            <p>Status: {booking.status}</p>
+            <p>Status: {booking.isBooked}</p>
           </li>
         ))}
       </ul>

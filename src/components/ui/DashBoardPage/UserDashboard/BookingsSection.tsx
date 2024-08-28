@@ -4,6 +4,7 @@ import {
   useCancelBookingMutation,
   useGetUserBookingsQuery,
 } from "../../../../redux/api/user/userApi";
+import { toast } from "react-toastify";
 
 const BookingsSection: React.FC = () => {
   const { data, refetch, isLoading, error } =
@@ -13,10 +14,18 @@ const BookingsSection: React.FC = () => {
   // Handle booking cancellation
   const handleCancelBooking = async (id: string) => {
     try {
-      await cancelBooking(id);
+      const result = await cancelBooking(id);
       refetch();
-    } catch (error) {
-      console.error("Failed to cancel booking", error);
+      const successMessage =
+        result?.data?.message ||
+        "An unexpected error occurred. Please try again.";
+      toast.success(successMessage);
+    } catch (error: any) {
+      const errorMessage =
+        error?.data?.message ||
+        error?.message ||
+        "An unexpected error occurred. Please try again.";
+      toast.error(errorMessage);
     }
   };
 
@@ -35,7 +44,7 @@ const BookingsSection: React.FC = () => {
         <ul className="space-y-4">
           {data?.data?.map((booking: any) => (
             <li
-              key={booking.id}
+              key={booking._id}
               className="bg-white shadow rounded-lg p-4 flex justify-between items-center"
             >
               <div>
@@ -45,7 +54,7 @@ const BookingsSection: React.FC = () => {
               </div>
               <div>
                 <button
-                  onClick={() => handleCancelBooking(booking.id)}
+                  onClick={() => handleCancelBooking(booking._id)}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                 >
                   Cancel Booking
