@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
+import { toast } from "react-toastify";
+import { useSignUpMutation } from "../redux/api/auth/authApi";
+
+const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -8,36 +12,32 @@ const SignUp = () => {
     phone: "",
     address: "",
   });
-  const [error, setError] = useState<string | null>(null);
+  const [signUp, { isLoading }] = useSignUpMutation();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.password ||
-      !formData.phone ||
-      !formData.address
-    ) {
-      setError("Please fill out all fields.");
-    } else {
-      setError(null);
-      console.log("Registering with:", formData);
-      // Perform registration logic here (e.g., API call)
+    try {
+      // Attempt to sign up the user
+      await signUp(formData).unwrap();
+
+      // After successful sign-up, navigate to login page
+      navigate("/login");
+
+      // Show a success toast message
+      toast.info("Sign-up successful! Please log in.");
+    } catch (err) {
+      console.error("Sign-up failed", err);
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-lg">
       <h2 className="text-4xl font-bold text-center mb-6">Sign Up</h2>
-
-      {error && (
-        <div className="bg-red-100 text-red-600 p-3 rounded mb-4">{error}</div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="form-control">
@@ -101,26 +101,9 @@ const SignUp = () => {
           />
         </div>
         <button type="submit" className="btn text-white bg-primary w-full">
-          Sign Up
+          {isLoading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
-
-      {/* Optional Social Login Section */}
-      <div className="mt-8">
-        <h3 className="text-center mb-4">Or sign up with</h3>
-        <div className="flex justify-center space-x-4">
-          <button className="btn bg-blue-500 text-white">Google</button>
-        </div>
-      </div>
-
-      <div className="text-center mt-6">
-        <p>
-          Already have an account?{" "}
-          <a href="/login" className="text-blue-600 hover:underline">
-            Login
-          </a>
-        </p>
-      </div>
     </div>
   );
 };

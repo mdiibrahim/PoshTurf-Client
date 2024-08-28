@@ -1,31 +1,42 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-const Login = () => {
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useLoginMutation } from "../redux/api/auth/authApi";
+import { setCredentials } from "../redux/features/auth/authSlice";
+
+const Login: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      setError("Please enter both email and password.");
-    } else {
-      setError(null);
-      console.log("Logging in with:", formData);
-      // Perform login logic here (e.g., API call)
+    try {
+      // Perform the login request
+      const userData = await login(formData).unwrap();
+
+      // Set user credentials in Redux and store token in localStorage
+      dispatch(setCredentials(userData));
+      localStorage.setItem("token", userData.token); // Store token in localStorage
+
+      toast.success("Login successful!");
+      navigate("/");
+    } catch (err) {
+      console.error("Login failed", err);
+      toast.error("Login failed. Please try again.");
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-lg">
       <h2 className="text-4xl font-bold text-center mb-6">Login</h2>
-
-      {error && (
-        <div className="bg-red-100 text-red-600 p-3 rounded mb-4">{error}</div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="form-control">
@@ -53,26 +64,9 @@ const Login = () => {
           />
         </div>
         <button type="submit" className="btn text-white bg-primary w-full">
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
-
-      {/* Optional Social Login Section */}
-      <div className="mt-8">
-        <h3 className="text-center mb-4">Or login with</h3>
-        <div className="flex justify-center space-x-4">
-          <button className="btn bg-blue-500 text-white">Google</button>
-        </div>
-      </div>
-
-      <div className="text-center mt-6">
-        <p>
-          Don't have an account?{" "}
-          <a href="/signup" className="text-blue-600 hover:underline">
-            Sign Up
-          </a>
-        </p>
-      </div>
     </div>
   );
 };
