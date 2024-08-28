@@ -7,6 +7,8 @@ import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 
+import Dashboard from "../pages/Dashboard";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "*",
         element: <NotFound />,
+      },
+      {
+        path: "/profile",
+        element: <Dashboard />,
       },
     ],
   },

@@ -1,17 +1,17 @@
-import { Link } from "react-router-dom";
+import React from "react";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto px-4 text-center">
-        <p>&copy; 2024 PoshTurf. All rights reserved.</p>
-        <div className="mt-4 space-x-4">
-          <Link to="/about" className="hover:underline">
+    <footer className="bg-gray-800 text-white py-4 mt-auto">
+      <div className="container mx-auto text-center">
+        <p>© 2024 PoshTurf. All rights reserved.</p>
+        <div className="mt-2 space-x-4">
+          <a href="/about" className="text-white hover:underline">
             About Us
-          </Link>
-          <Link to="/contact" className="hover:underline">
+          </a>
+          <a href="/contact" className="text-white hover:underline">
             Contact Us
-          </Link>
+          </a>
         </div>
       </div>
     </footer>
