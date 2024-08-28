@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetUserProfileQuery } from "../../../redux/api/user/userApi"; // Adjust path as per your file structure
+import { useGetUserProfileQuery } from "../../../../redux/api/user/userApi";
 
 const WelcomeSection: React.FC = () => {
   const { data: user, isLoading, error } = useGetUserProfileQuery(undefined);
@@ -16,7 +16,7 @@ const WelcomeSection: React.FC = () => {
     <div
       className="relative min-h-[400px] flex items-center justify-center bg-cover bg-center text-white"
       style={{
-        backgroundImage: `url("https://example.com/path/to/your/image.jpg")`,
+        backgroundImage: `url("https://unsplash.com/photos/orange-and-brown-wooden-welcome-door-hanging-decor-t2xiwGFv5wA")`,
       }}
     >
       <div className="bg-black bg-opacity-50 p-8 rounded-md text-center">

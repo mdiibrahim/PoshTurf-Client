@@ -4,16 +4,17 @@ import { baseApi } from "../api";
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query({
-      query: () => "/user/profile/",
+      query: () => ({ url: "/user/profile/", method: "GET" }),
     }),
     getUserBookings: builder.query({
-      query: () => "/bookings/user",
+      query: () => ({ url: "/bookings/user", method: "GET" }),
     }),
     cancelBooking: builder.mutation({
       query: (id) => ({
         url: `/bookings/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Bookings"],
     }),
   }),
 });

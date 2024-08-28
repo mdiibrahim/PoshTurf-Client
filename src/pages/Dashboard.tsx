@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import AdminDashboard from "../components/ui/DashBoardPage/AdminDashboard";
-import UserDashboard from "../components/ui/DashBoardPage/UserDashboard";
+import AdminDashboard from "../components/ui/DashBoardPage/AdminDashBoard/AdminDashboard";
+import UserDashboard from "../components/ui/DashBoardPage/UserDashboard/UserDashboard";
 
 const Dashboard: React.FC = () => {
   const role = useSelector((state: RootState) => state.auth.role);

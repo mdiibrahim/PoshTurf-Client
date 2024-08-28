@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateAdminMutation } from "../../../redux/api/user/adminApi";
+import { useCreateAdminMutation } from "../../../../redux/api/user/adminApi";
 
 const AddAdminSection: React.FC = () => {
   const [createAdmin] = useCreateAdminMutation();

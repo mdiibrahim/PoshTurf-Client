@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateFacilityMutation } from "../../../redux/api/user/adminApi";
+import { useCreateFacilityMutation } from "../../../../redux/api/user/adminApi";
 
 const AddFacilitySection: React.FC = () => {
   const [createFacility] = useCreateFacilityMutation();

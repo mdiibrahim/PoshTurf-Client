@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { useGetAllBookingsQuery } from "../../../redux/api/user/adminApi";
+import { useGetAllBookingsQuery } from "../../../../redux/api/user/adminApi";
 
 const BookingsSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllBookingsQuery(undefined);

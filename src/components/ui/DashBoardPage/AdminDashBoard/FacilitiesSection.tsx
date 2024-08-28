@@ -3,7 +3,7 @@ import React from "react";
 import {
   useGetAllFacilitiesQuery,
   useDeleteFacilityMutation,
-} from "../../../redux/api/user/adminApi";
+} from "../../../../redux/api/user/adminApi";
 
 const FacilitiesSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllFacilitiesQuery(undefined);

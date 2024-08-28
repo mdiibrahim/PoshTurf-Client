@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetAdminProfileQuery } from "../../../redux/api/user/adminApi";
+import { useGetAdminProfileQuery } from "../../../../redux/api/user/adminApi";
 
 const ProfileSection: React.FC = () => {
   const { data, error, isLoading } = useGetAdminProfileQuery(undefined);
