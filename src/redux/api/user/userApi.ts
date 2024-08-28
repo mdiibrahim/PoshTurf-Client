@@ -4,22 +4,15 @@ import { baseApi } from "../api";
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query({
-      query: () => "/profile", // Replace with your user profile endpoint
+      query: () => "/user/profile/",
     }),
     getUserBookings: builder.query({
-      query: () => "/user", // Replace with your user bookings endpoint
+      query: () => "/bookings/user",
     }),
-    getAllBookings: builder.query({
-      query: () => "/bookings", // Admin only: get all bookings
-    }),
-    getAllFacilities: builder.query({
-      query: () => "/facility", // Admin only: get all facilities
-    }),
-    addFacility: builder.mutation({
-      query: (newFacility) => ({
-        url: "/facility",
-        method: "POST",
-        body: newFacility,
+    cancelBooking: builder.mutation({
+      query: (id) => ({
+        url: `/bookings/${id}`,
+        method: "DELETE",
       }),
     }),
   }),
@@ -28,7 +21,5 @@ export const userApi = baseApi.injectEndpoints({
 export const {
   useGetUserProfileQuery,
   useGetUserBookingsQuery,
-  useGetAllBookingsQuery,
-  useGetAllFacilitiesQuery,
-  useAddFacilityMutation,
+  useCancelBookingMutation,
 } = userApi;

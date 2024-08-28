@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { logout } from "../../redux/features/auth/authSlice";
+import logo from "../../assets/poshturf-logo.png";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,18 +20,27 @@ const Header: React.FC = () => {
 
   const handleDashboardRedirect = () => {
     if (role === "admin") {
-      navigate("/profile"); // Admin Dashboard
+      navigate("/me"); // Admin Dashboard
     } else {
-      navigate("/profile"); // User Dashboard
+      navigate("/me"); // User Dashboard
     }
   };
 
   return (
     <header className="bg-white shadow">
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div className="text-lg font-bold">
-          <Link to="/">PoshTurf</Link>
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center space-x-2">
+            <span className="text-lg font-bold text-gray-900">Posh</span>
+            <img
+              src={logo}
+              alt="PoshTurf Logo"
+              className="h-8 w-auto rounded-2xl"
+            />
+            <span className="text-lg font-bold text-gray-900">Turf</span>
+          </Link>
         </div>
+
         <nav className="space-x-4 flex items-center">
           {token && (
             <button

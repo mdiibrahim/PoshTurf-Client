@@ -22,7 +22,7 @@ const Login: React.FC = () => {
       const { token } = await login(formData).unwrap();
       dispatch(setCredentials({ token }));
       toast.success("Login successful!");
-      navigate("/profile");
+      navigate("/me");
     } catch (err: any) {
       console.error("Login failed", err);
       const errorMessage =

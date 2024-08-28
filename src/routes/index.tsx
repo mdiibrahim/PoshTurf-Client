@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
         element: <NotFound />,
       },
       {
-        path: "/profile",
+        path: "/me",
         element: <Dashboard />,
       },
     ],
