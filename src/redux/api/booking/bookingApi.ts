@@ -1,29 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../api";
 
 // Authentication API endpoints
 export const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    checkAvailability: builder.mutation({
+    checkAvailability: builder.query({
       query: ({ date, facility }) => ({
-        url: `/check-availability`,
-        method: "GET",
+        url: `/bookings/check-availability`,
         params: { date, facility },
       }),
     }),
-    createBooking: builder.mutation<
-      any,
-      { facilityId: string; date: string; timeSlot: string }
-    >({
-      query: (bookingData) => ({
+    bookFacility: builder.mutation({
+      query: (bookingDetails) => ({
         url: `/bookings`,
         method: "POST",
-        body: bookingData,
+        body: bookingDetails,
       }),
-      invalidatesTags: ["Bookings"],
     }),
   }),
+  overrideExisting: false,
 });
 
-export const { useCheckAvailabilityMutation, useCreateBookingMutation } =
+export const { useCheckAvailabilityQuery, useBookFacilityMutation } =
   bookingApi;

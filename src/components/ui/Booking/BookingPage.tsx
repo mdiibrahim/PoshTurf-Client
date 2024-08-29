@@ -1,47 +1,45 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useSelector } from "react-redux";
-
 import { toast } from "react-toastify";
 import { useGetFacilityByIdQuery } from "../../../redux/api/facility/facilityApi";
 import { RootState } from "../../../redux/store";
 import {
-  useCheckAvailabilityMutation,
-  useCreateBookingMutation,
+  useBookFacilityMutation,
+  useCheckAvailabilityQuery,
 } from "../../../redux/api/booking/bookingApi";
+import { format } from "date-fns";
 
 const BookingPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: facility, isLoading, error } = useGetFacilityByIdQuery(id);
-  const [checkAvailability] = useCheckAvailabilityMutation(undefined);
-  const [createBooking] = useCreateBookingMutation();
-
-  const [bookingDate, setBookingDate] = useState<string>("");
-  const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const token = useSelector((state: RootState) => state?.auth?.token);
+  const [createBooking] = useBookFacilityMutation();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [availableSlots, setAvailableSlots] = useState<
+    Array<{ startTime: string; endTime: string }>
+  >([]);
   const [selectedSlot, setSelectedSlot] = useState<string>("");
 
-  const token = useSelector((state: RootState) => state?.auth?.token);
-
-  const handleCheckAvailability = async () => {
-    if (!bookingDate) {
-      toast.error("Please select a date.");
-      return;
+  const { data: availabilityData } = useCheckAvailabilityQuery(
+    {
+      date: format(selectedDate || new Date(), "yyyy-MM-dd"),
+      facility: id,
+    },
+    {
+      skip: !selectedDate,
     }
+  );
 
-    try {
-      const response = await checkAvailability({
-        date: bookingDate,
-        facility: id,
-      }).unwrap();
-      setAvailableSlots(response.data); // Assume API returns a `data` object
-    } catch (error: any) {
-      console.log(error);
-      toast.error("Failed to check availability. Please try again.");
+  useEffect(() => {
+    if (availabilityData) {
+      setAvailableSlots(availabilityData.data);
     }
-  };
+  }, [availabilityData]);
 
   const handleBooking = async () => {
     if (!selectedSlot) {
@@ -51,20 +49,19 @@ const BookingPage: React.FC = () => {
 
     if (!token) {
       toast.error("You must be logged in to book a facility.");
-      navigate("/login"); // Redirect to login if not authenticated
+      navigate("/login");
       return;
     }
 
     try {
       const bookingData: any = {
         facilityId: id,
-        date: bookingDate,
+        date: format(selectedDate || new Date(), "yyyy-MM-dd"),
         timeSlot: selectedSlot,
       };
       const bookingResponse = await createBooking(bookingData).unwrap();
 
       toast.success("Booking successful!");
-      // Redirect to payment page
       navigate(`/payment/${bookingResponse.bookingId}`);
     } catch (error: any) {
       console.log(error);
@@ -92,34 +89,30 @@ const BookingPage: React.FC = () => {
 
       <div className="mb-6">
         <h3 className="text-2xl font-bold mb-4">Check Availability</h3>
-        <input
-          type="date"
-          value={bookingDate}
-          onChange={(e) => setBookingDate(e.target.value)}
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
           className="p-2 border border-gray-400 rounded w-full mb-4"
+          dateFormat="yyyy-MM-dd"
+          minDate={new Date()}
+          showDisabledMonthNavigation
         />
-        <button
-          onClick={handleCheckAvailability}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Check Availability
-        </button>
 
         {availableSlots.length > 0 && (
           <div className="mt-4">
             <h4 className="text-xl font-bold mb-2">Available Slots</h4>
             <ul>
               {availableSlots.map((slot) => (
-                <li key={slot} className="mb-2">
+                <li key={slot.startTime} className="mb-2">
                   <button
-                    onClick={() => setSelectedSlot(slot)}
+                    onClick={() => setSelectedSlot(slot.startTime)}
                     className={`px-4 py-2 rounded ${
-                      selectedSlot === slot
+                      selectedSlot === slot.startTime
                         ? "bg-blue-600 text-white"
                         : "bg-gray-200"
                     }`}
                   >
-                    {slot}
+                    {slot.startTime} - {slot.endTime}
                   </button>
                 </li>
               ))}
@@ -130,7 +123,7 @@ const BookingPage: React.FC = () => {
 
       <div className="mb-6">
         <h3 className="text-2xl font-bold mb-4">Booking Details</h3>
-        <p>Date: {bookingDate}</p>
+        <p>Date: {format(selectedDate || new Date(), "yyyy-MM-dd")}</p>
         <p>Selected Time Slot: {selectedSlot}</p>
         <button
           onClick={handleBooking}
