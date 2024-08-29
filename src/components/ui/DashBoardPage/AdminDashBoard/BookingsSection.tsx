@@ -4,7 +4,6 @@ import { useGetAllBookingsQuery } from "../../../../redux/api/user/adminApi";
 
 const BookingsSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllBookingsQuery(undefined);
-  console.log(useGetAllBookingsQuery(undefined));
   if (isLoading) {
     return <p>Loading...</p>;
   }

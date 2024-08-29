@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ContactForm = () => {
   // Form state
@@ -20,8 +21,7 @@ const ContactForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate form submission, e.g., send data to backend
-    console.log("Form submitted:", formData);
-    alert("Thank you for reaching out!");
+    toast.success("Thank you for reaching out!");
     // Clear form fields
     setFormData({ name: "", email: "", subject: "", message: "" });
   };

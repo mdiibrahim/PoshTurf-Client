@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { logout } from "../../redux/features/auth/authSlice";
 import logo from "../../assets/poshturf-logo.png";
+import { useAppDispatch } from "../../redux/hooks";
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // Access token and role from Redux state
@@ -42,6 +43,9 @@ const Header: React.FC = () => {
         </div>
 
         <nav className="space-x-4 flex items-center">
+          <Link to="/facilities" className="text-gray-700 hover:text-gray-900">
+            Facilities
+          </Link>
           {token && (
             <button
               onClick={handleDashboardRedirect}

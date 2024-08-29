@@ -8,6 +8,11 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 
 import Dashboard from "../pages/Dashboard";
+import CheckoutPage from "../components/ui/DashBoardPage/UserDashboard/Checkout";
+import FacilityListingPage from "../components/ui/Facilities/FacilityListingPage";
+import FacilityDetailsPage from "../components/ui/Facilities/FacilityDetailsPage";
+import ProtectedRoute from "./ProtectedRoute";
+import BookingPage from "../components/ui/Booking/BookingPage";
 
 export const router = createBrowserRouter([
   {
@@ -39,8 +44,29 @@ export const router = createBrowserRouter([
         element: <NotFound />,
       },
       {
-        path: "/me",
-        element: <Dashboard />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/me",
+            element: <Dashboard />,
+          },
+          {
+            path: "/checkout",
+            element: <CheckoutPage />,
+          },
+        ],
+      },
+      {
+        path: "/facilities",
+        element: <FacilityListingPage />,
+      },
+      {
+        path: "/facility/:id",
+        element: <FacilityDetailsPage />,
+      },
+      {
+        path: "/check-availability",
+        element: <BookingPage />,
       },
     ],
   },
