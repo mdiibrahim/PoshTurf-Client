@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetFacilityByIdQuery } from "../../../redux/api/facility/facilityApi";
 import AvailabilityChecker from "../Booking/AvailabilityChecker";
+import ReviewSection from "../ReviewSection/ReviewSection";
 
 const FacilityDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,6 +33,9 @@ const FacilityDetailsPage: React.FC = () => {
 
       {/* Availability Checker Component */}
       <AvailabilityChecker facilityId={facility._id} />
+
+      {/* Review Section */}
+      <ReviewSection facility={facility._id} />
     </div>
   );
 };
