@@ -15,7 +15,15 @@ export const reviewApi = baseApi.injectEndpoints({
 
       invalidatesTags: ["Reviews"],
     }),
+    getTestimonials: builder.query({
+      query: () => "/reviews",
+      providesTags: ["Reviews"],
+    }),
   }),
 });
 
-export const { useGetReviewsQuery, useAddReviewMutation } = reviewApi;
+export const {
+  useGetReviewsQuery,
+  useAddReviewMutation,
+  useGetTestimonialsQuery,
+} = reviewApi;
