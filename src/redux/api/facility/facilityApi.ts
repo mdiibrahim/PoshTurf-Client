@@ -10,7 +10,15 @@ export const facilityApi = baseApi.injectEndpoints({
     getFacilityById: builder.query({
       query: (id) => `/facility/${id}`,
     }),
+    getTopRatedFacilities: builder.query({
+      query: () => "/facility/featured",
+      providesTags: ["Facility"],
+    }),
   }),
 });
 
-export const { useGetFacilitiesQuery, useGetFacilityByIdQuery } = facilityApi;
+export const {
+  useGetFacilitiesQuery,
+  useGetFacilityByIdQuery,
+  useGetTopRatedFacilitiesQuery,
+} = facilityApi;

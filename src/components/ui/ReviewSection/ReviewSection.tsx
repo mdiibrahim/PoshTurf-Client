@@ -18,7 +18,6 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ facility }) => {
   const [addReview] = useAddReviewMutation();
   const [newReview, setNewReview] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
-  console.log(reviews);
   const handleAddReview = async () => {
     if (!newReview.trim() || rating === 0) {
       return;

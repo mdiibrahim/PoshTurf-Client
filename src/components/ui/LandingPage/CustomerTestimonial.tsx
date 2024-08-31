@@ -31,7 +31,7 @@ const CustomerTestimonial: React.FC = () => {
             key={testimonial._id}
             className="p-4"
             style={{
-              backgroundImage: `url(${testimonial.facility.image})`,
+              backgroundImage: `url(${testimonial?.facility?.image})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: "8px",

@@ -1,78 +1,77 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../../../redux/store";
+import { useGetBookingDetailsQuery } from "../../../../redux/api/booking/bookingApi";
 
 const CheckoutPage: React.FC = () => {
-  const location = useLocation();
-  const { booking } = location.state || {};
-  console.log(booking);
-  useEffect(() => {
-    if (!booking) {
-      toast.error("No booking information available.");
-    }
-  }, [booking]);
+  const { bookingId } = useParams<{ bookingId: string }>();
+  const token = useSelector((state: RootState) => state.auth.token);
+  const { data, isLoading, error } = useGetBookingDetailsQuery(
+    bookingId as string
+  );
 
-  const handlePayment = async () => {
-    try {
-      const response = await fetch(
-        "https://sandbox.aamarpay.com/jsonpost.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            cus_name: booking.customerName,
-            cus_email: booking.customerEmail,
-            cus_phone: booking.customerPhone,
-            cus_add1: booking.customerAddress,
-            amount: booking.payableAmount,
-            currency: "BDT",
-            tran_id: booking._id,
-            success_url: "http://localhost:3000/payment-success", // Replace with your actual success URL
-            fail_url: "http://localhost:3000/payment-fail", // Replace with your actual failure URL
-            cancel_url: "http://localhost:3000/payment-cancel", // Replace with your actual cancel URL
-            desc: booking.facilityName,
-          }),
-        }
-      );
+  const navigate = useNavigate();
+  const bookings = data?.data || []; // Ensure we have an array
 
-      const paymentData = await response.json();
+  if (isLoading) return <p>Loading booking details...</p>;
+  if (error) return <p>Error loading booking details.</p>;
 
-      if (paymentData.status === "success") {
-        window.location.href = paymentData.payment_url; // Redirect to payment gateway
-      } else {
-        toast.error("Failed to initiate payment.");
-      }
-    } catch (error: any) {
-      console.log(error);
-      toast.error("Error initiating payment. Please try again.");
+  const handlePayment = () => {
+    if (!token) {
+      navigate("/login");
+    } else {
+      // Logic for initiating payment, redirect to payment gateway
+      alert("Proceed to payment gateway...");
+      // Example: navigate to payment page
+      navigate(`/payment/${bookingId}`);
     }
   };
-
-  if (!booking) {
-    return <p>No booking data available.</p>;
-  }
 
   return (
     <div className="container mx-auto p-8">
       <h2 className="text-3xl font-bold mb-4">Checkout</h2>
-      <p className="mb-2">
-        <strong>Facility:</strong> {booking.facilityName}
-      </p>
-      <p className="mb-2">
-        <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}
-      </p>
-      <p className="mb-2">
-        <strong>Price:</strong> {booking.price} BDT
-      </p>
-      <button
-        onClick={handlePayment}
-        className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600"
-      >
-        Proceed to Payment
-      </button>
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        {bookings.map((booking: any, index: number) => (
+          <div key={index} className="mb-6">
+            <h3 className="text-2xl font-semibold mb-4">
+              Booking Summary {index + 1}
+            </h3>
+            <p>
+              <strong>Facility:</strong> {booking?.facility.name}
+            </p>
+            <p>
+              <strong>Location:</strong> {booking?.facility.location}
+            </p>
+            <p>
+              <strong>Date:</strong> {booking?.date}
+            </p>
+            <p>
+              <strong>Time Slots:</strong>
+            </p>
+            <ul className="list-disc list-inside">
+              {booking?.timeSlots.map((slot: any, slotIndex: number) => (
+                <li key={slotIndex}>
+                  {slot.startTime} - {slot.endTime}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4">
+              <strong>Total Amount:</strong> $
+              {booking?.payableAmount.toFixed(2)}
+            </p>
+          </div>
+        ))}
+
+        <button
+          onClick={handlePayment}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-6"
+        >
+          Proceed to Payment
+        </button>
+      </div>
     </div>
   );
 };

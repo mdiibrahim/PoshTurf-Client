@@ -16,7 +16,7 @@ const Banner = () => {
           booking, secure payments, and excellent services.
         </p>
         <Link
-          to="/bookings"
+          to="/facilities"
           className="bg-primary px-6 py-3 text-lg font-semibold rounded-md hover:bg-blue-600"
         >
           Book Now

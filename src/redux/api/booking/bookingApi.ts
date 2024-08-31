@@ -16,9 +16,15 @@ export const bookingApi = baseApi.injectEndpoints({
         body: bookingDetails,
       }),
     }),
+    getBookingDetails: builder.query({
+      query: (bookingId: string) => `/bookings/${bookingId}`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCheckAvailabilityQuery, useBookFacilityMutation } =
-  bookingApi;
+export const {
+  useCheckAvailabilityQuery,
+  useBookFacilityMutation,
+  useGetBookingDetailsQuery,
+} = bookingApi;
