@@ -19,6 +19,13 @@ export const bookingApi = baseApi.injectEndpoints({
     getBookingDetails: builder.query({
       query: (bookingId: string) => `/bookings/${bookingId}`,
     }),
+    initiatePayment: builder.mutation({
+      query: (paymentData) => ({
+        url: "/payment",
+        method: "POST",
+        body: paymentData,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -27,4 +34,5 @@ export const {
   useCheckAvailabilityQuery,
   useBookFacilityMutation,
   useGetBookingDetailsQuery,
+  useInitiatePaymentMutation,
 } = bookingApi;

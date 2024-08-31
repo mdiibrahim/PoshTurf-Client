@@ -12,6 +12,8 @@ import CheckoutPage from "../components/ui/DashBoardPage/UserDashboard/Checkout"
 import FacilityListingPage from "../components/ui/Facilities/FacilityListingPage";
 import FacilityDetailsPage from "../components/ui/Facilities/FacilityDetailsPage";
 import ProtectedRoute from "./ProtectedRoute";
+import SuccessPage from "../pages/PaymentSuccess";
+import FailPage from "../pages/PaymentFail";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +64,14 @@ export const router = createBrowserRouter([
       {
         path: "/facility/:id",
         element: <FacilityDetailsPage />,
+      },
+      {
+        path: "/payment/success",
+        element: <SuccessPage />,
+      },
+      {
+        path: "/payment/fail",
+        element: <FailPage />,
       },
     ],
   },
