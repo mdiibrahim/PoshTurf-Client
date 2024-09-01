@@ -6,7 +6,7 @@ import { FaPhoneAlt, FaEnvelope, FaClock } from "react-icons/fa";
 const SupportSection: React.FC = () => {
   return (
     <div className="container my-10 p-8 bg-gradient-to-r from-green-50 to-blue-100 rounded-lg ">
-      <h2 className="text-3xl font-bold text-center mb-8 text-blue-700">
+      <h2 className="text-3xl font-bold text-center mb-8 text-primary">
         24/7 Support
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center">

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-
 import FacilityCard from "./FacilityCard";
 import { useGetFacilitiesQuery } from "../../../redux/api/facility/facilityApi";
 
 const FacilityListingPage: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [facilitiesPerPage] = useState(6); // Number of facilities per page
   const { data, isLoading, error } = useGetFacilitiesQuery(undefined);
   const facilities = data?.data;
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,12 +22,24 @@ const FacilityListingPage: React.FC = () => {
       (priceFilter === null || facility.pricePerHour <= priceFilter)
   );
 
+  // Pagination Logic
+  const indexOfLastFacility = currentPage * facilitiesPerPage;
+  const indexOfFirstFacility = indexOfLastFacility - facilitiesPerPage;
+  const currentFacilities = filteredFacilities?.slice(
+    indexOfFirstFacility,
+    indexOfLastFacility
+  );
+
+  const totalPages = Math.ceil(filteredFacilities?.length / facilitiesPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <div className="container mx-auto p-8">
       <h2 className="text-3xl font-bold mb-4">Available Facilities</h2>
 
       {/* Search and Filters */}
-      <div className="flex space-x-4 mb-6">
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
         <input
           type="text"
           placeholder="Search by facility name or location"
@@ -50,8 +63,8 @@ const FacilityListingPage: React.FC = () => {
 
       {/* Facility Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredFacilities?.length ? (
-          filteredFacilities.map((facility: any) => (
+        {currentFacilities?.length ? (
+          currentFacilities.map((facility: any) => (
             <FacilityCard
               key={facility._id}
               id={facility._id}
@@ -64,6 +77,23 @@ const FacilityListingPage: React.FC = () => {
         ) : (
           <p>No facilities found.</p>
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-8">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => paginate(index + 1)}
+            className={`mx-1 px-3 py-2 rounded w-full ${
+              currentPage === index + 1
+                ? "bg-primary text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

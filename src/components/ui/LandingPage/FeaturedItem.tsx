@@ -42,8 +42,8 @@ const TopRatedFacilities: React.FC = () => {
   }
 
   return (
-    <div className="container ">
-      <h2 className="text-3xl font-bold mb-6 text-center">
+    <div className="container my-10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-primary">
         Top Rated Facilities
       </h2>
       <Slider {...settings}>
@@ -73,7 +73,7 @@ const TopRatedFacilities: React.FC = () => {
                 </p>
                 <Link
                   to={`/facility/${facility._id}`}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
                 >
                   View Details
                 </Link>

@@ -47,7 +47,7 @@ const CustomerTestimonial: React.FC = () => {
 
   return (
     <div className="container bg-gradient-to-r from-green-50 to-blue-100 p-8 my-10">
-      <h2 className="text-4xl font-bold text-center mb-16">
+      <h2 className="text-4xl font-bold text-center mb-16 text-primary">
         Customer Testimonials
       </h2>
       <Slider {...settings}>
