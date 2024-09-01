@@ -7,7 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaCalendarAlt, FaMoneyCheckAlt } from "react-icons/fa";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 
 const BookingsSection: React.FC = () => {
   const { data, refetch, isLoading, error } =
@@ -38,7 +38,7 @@ const BookingsSection: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

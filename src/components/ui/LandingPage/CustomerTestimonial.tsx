@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import { useGetTestimonialsQuery } from "../../../redux/api/review/reviewApi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const CustomerTestimonial: React.FC = () => {
@@ -13,7 +13,7 @@ const CustomerTestimonial: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

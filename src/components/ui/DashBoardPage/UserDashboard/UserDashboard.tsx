@@ -12,7 +12,7 @@ const UserDashboard: React.FC = () => {
     profile: <ProfileSection />,
   };
 
-  return <SharedDashboard role="user" sections={sections} />;
+  return <SharedDashboard sections={sections} />;
 };
 
 export default UserDashboard;

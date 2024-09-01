@@ -32,13 +32,14 @@ export const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["Facility"],
     }),
     updateFacility: builder.mutation({
-      query: ({ id, ...updatedData }) => ({
+      query: ({ id, updatedData }) => ({
         url: `/facility/${id}`,
-        method: "PUT", // PUT method for updating data
+        method: "PUT",
         body: updatedData,
       }),
       invalidatesTags: ["Facility"],
     }),
+
     deleteFacility: builder.mutation({
       query: (id) => ({
         url: `/facility/${id}`,

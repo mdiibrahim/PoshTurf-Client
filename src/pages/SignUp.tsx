@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSignUpMutation } from "../redux/api/auth/authApi";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const SignUp: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

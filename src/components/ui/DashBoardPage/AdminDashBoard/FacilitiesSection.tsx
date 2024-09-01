@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useState } from "react";
 import {
   useGetAllFacilitiesQuery,
   useDeleteFacilityMutation,
 } from "../../../../redux/api/user/adminApi";
 import { toast } from "react-toastify";
-import ClipLoader from "react-spinners/ClipLoader";
+import RingLoader from "react-spinners/RingLoader";
+import UpdateFacilitySection from "./UpdateFacilitySection";
 
 const FacilitiesSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllFacilitiesQuery(undefined);
   const [deleteFacility] = useDeleteFacilityMutation();
+  const [selectedFacility, setSelectedFacility] = useState<any | null>(null);
 
   const handleDeleteFacility = async (id: string) => {
     try {
@@ -29,7 +31,7 @@ const FacilitiesSection: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }
@@ -50,16 +52,32 @@ const FacilitiesSection: React.FC = () => {
         {data?.data?.map((facility: any) => (
           <li key={facility._id} className="bg-white p-6 shadow-lg rounded-lg">
             <h4 className="font-bold text-lg">{facility.name}</h4>
-            <p className="text-gray-700">{facility.description}</p>
-            <button
-              onClick={() => handleDeleteFacility(facility._id)}
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-300"
-            >
-              Delete
-            </button>
+            <p className="text-gray-700">{facility.location}</p>
+            <p className="text-gray-700">{facility.pricePerHour}</p>
+            <div className="mt-4 flex space-x-4">
+              <button
+                onClick={() => setSelectedFacility(facility)}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDeleteFacility(facility._id)}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-300"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
+
+      {selectedFacility && (
+        <UpdateFacilitySection
+          facility={selectedFacility}
+          onClose={() => setSelectedFacility(null)}
+        />
+      )}
     </div>
   );
 };

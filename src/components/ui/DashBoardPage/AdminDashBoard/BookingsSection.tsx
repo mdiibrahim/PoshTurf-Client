@@ -2,7 +2,7 @@
 import React from "react";
 import { useGetAllBookingsQuery } from "../../../../redux/api/user/adminApi";
 import { toast } from "react-toastify";
-import ClipLoader from "react-spinners/ClipLoader";
+import RingLoader from "react-spinners/RingLoader";
 
 const BookingsSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllBookingsQuery(undefined);
@@ -10,7 +10,7 @@ const BookingsSection: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useGetUserProfileQuery } from "../../../../redux/api/user/userApi";
 import { toast } from "react-toastify";
-import ClipLoader from "react-spinners/ClipLoader";
+import RingLoader from "react-spinners/RingLoader";
 
 const WelcomeSection: React.FC = () => {
   const { data: user, isLoading, error } = useGetUserProfileQuery(undefined);
@@ -9,7 +9,7 @@ const WelcomeSection: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
-        <ClipLoader color="#663635" size={60} />
+        <RingLoader color="#663635" size={60} />
       </div>
     );
   }

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useGetFacilityByIdQuery } from "../../../redux/api/facility/facilityApi";
 import AvailabilityChecker from "../Booking/AvailabilityChecker";
 import ReviewSection from "../ReviewSection/ReviewSection";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const FacilityDetailsPage: React.FC = () => {
@@ -14,7 +14,7 @@ const FacilityDetailsPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

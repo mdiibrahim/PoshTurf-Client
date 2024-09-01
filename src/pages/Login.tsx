@@ -5,7 +5,7 @@ import { useLoginMutation } from "../redux/api/auth/authApi";
 import { setCredentials } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

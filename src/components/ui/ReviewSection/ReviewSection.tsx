@@ -63,7 +63,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ facility }) => {
           </div>
           <button
             onClick={handleAddReview}
-            className="bg-primary text-white px-6 py-3 rounded-lg shadow-lg hover:bg-primary-dark transition-all duration-300 w-full"
+            className="bg-primary text-white px-6 py-3 rounded-lg shadow-lg hover:bg-primary-dark hover:bg-green-600 transition-all duration-300 w-full"
           >
             Submit Review
           </button>

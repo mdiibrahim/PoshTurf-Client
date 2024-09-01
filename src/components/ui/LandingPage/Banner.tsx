@@ -17,7 +17,7 @@ const Banner = () => {
         </p>
         <Link
           to="/facilities"
-          className="bg-primary px-6 py-3 text-lg font-semibold rounded-md hover:bg-blue-600"
+          className="bg-primary px-6 py-3 text-lg font-semibold rounded-md hover:bg-green-600"
         >
           Book Now
         </Link>

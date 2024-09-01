@@ -7,7 +7,7 @@ import { useGetTopRatedFacilitiesQuery } from "../../../redux/api/facility/facil
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const TopRatedFacilities: React.FC = () => {
@@ -27,7 +27,7 @@ const TopRatedFacilities: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }
@@ -73,7 +73,7 @@ const TopRatedFacilities: React.FC = () => {
                 </p>
                 <Link
                   to={`/facility/${facility._id}`}
-                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
                 >
                   View Details
                 </Link>

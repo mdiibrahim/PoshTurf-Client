@@ -22,7 +22,7 @@ const SharedDashboard: React.FC<LayoutProps> = ({ sections }) => {
       />
 
       {/* Main Content */}
-      <main className="flex-1 bg-gradient-to-r from-green-50 to-blue-100 p-6 lg:p-8">
+      <main className="flex-1 p-6 lg:p-8 bg-gradient-to-r from-green-50 to-blue-100">
         <div className="bg-white shadow-md rounded-lg p-6">
           {sections[activeSection]}
         </div>

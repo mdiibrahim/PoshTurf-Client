@@ -5,7 +5,7 @@ import AdminDashboard from "../components/ui/DashBoardPage/AdminDashBoard/AdminD
 import UserDashboard from "../components/ui/DashBoardPage/UserDashboard/UserDashboard";
 
 const Dashboard: React.FC = () => {
-  const role = useSelector((state: RootState) => state.auth.role);
+  const role = useSelector((state: RootState) => state?.auth.role);
 
   return (
     <div className="min-h-screen my-24 bg-gradient-to-r from-green-50 to-blue-100">

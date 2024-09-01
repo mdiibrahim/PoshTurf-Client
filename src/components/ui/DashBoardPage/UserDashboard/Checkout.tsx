@@ -6,7 +6,7 @@ import { RootState } from "../../../../redux/store";
 import { useGetBookingDetailsQuery } from "../../../../redux/api/booking/bookingApi";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 
 const CheckoutPage: React.FC = () => {
   const { bookingId } = useParams<{ bookingId: string }>();
@@ -21,7 +21,7 @@ const CheckoutPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }

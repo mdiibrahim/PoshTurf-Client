@@ -12,8 +12,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   // Access token and role from Redux state
-  const token = useSelector((state: RootState) => state.auth.token);
-  const role = useSelector((state: RootState) => state.auth.role);
+  const token = useSelector((state: RootState) => state?.auth.token);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -23,11 +22,7 @@ const Header: React.FC = () => {
   };
 
   const handleDashboardRedirect = () => {
-    if (role === "admin") {
-      navigate("/me"); // Admin Dashboard
-    } else {
-      navigate("/me"); // User Dashboard
-    }
+    navigate("/me"); // Admin and User Dashboard Redirect
   };
 
   const toggleMenu = () => {
@@ -35,31 +30,29 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow  top-0 left-0 w-full z-50">
+    <header className="bg-white shadow-md top-0 left-0 w-full z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-gray-900">Posh</span>
-            <img
-              src={logo}
-              alt="PoshTurf Logo"
-              className="h-8 w-auto rounded-2xl"
-            />
-            <span className="text-lg font-bold text-gray-900">Turf</span>
-          </Link>
-        </div>
+        <Link to="/" className="flex items-center space-x-2">
+          <span className="text-xl font-bold text-gray-900">Posh</span>
+          <img
+            src={logo}
+            alt="PoshTurf Logo"
+            className="h-10 w-auto rounded-lg"
+          />
+          <span className="text-xl font-bold text-gray-900">Turf</span>
+        </Link>
 
-        <nav className="hidden md:flex space-x-4 items-center">
+        <nav className="hidden md:flex space-x-6 items-center">
           <Link
             to="/facilities"
-            className="text-gray-700 hover:text-gray-900 transition"
+            className="text-gray-700 hover:text-primary transition-colors duration-200"
           >
             Facilities
           </Link>
           {token && (
             <button
               onClick={handleDashboardRedirect}
-              className="text-gray-700 hover:text-gray-900 transition"
+              className="text-gray-700 hover:text-primary transition-colors duration-200"
             >
               Dashboard
             </button>
@@ -67,7 +60,7 @@ const Header: React.FC = () => {
           {token ? (
             <button
               onClick={handleLogout}
-              className="text-gray-700 hover:text-gray-900 transition"
+              className="bg-primary text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
             >
               Logout
             </button>
@@ -75,13 +68,13 @@ const Header: React.FC = () => {
             <>
               <Link
                 to="/login"
-                className="text-gray-700 hover:text-gray-900 transition"
+                className="text-gray-700 hover:text-primary transition-colors duration-200"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="bg-[#663635] text-white px-4 py-2 rounded hover:bg-opacity-90 transition"
+                className="bg-primary text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
               >
                 Sign Up
               </Link>
@@ -107,7 +100,7 @@ const Header: React.FC = () => {
             <Link
               to="/facilities"
               onClick={toggleMenu}
-              className="text-gray-700 hover:text-gray-900 transition"
+              className="text-gray-700 hover:text-primary transition-colors duration-200"
             >
               Facilities
             </Link>
@@ -117,7 +110,7 @@ const Header: React.FC = () => {
                   handleDashboardRedirect();
                   toggleMenu();
                 }}
-                className="text-gray-700 hover:text-gray-900 transition"
+                className="text-gray-700 hover:text-primary transition-colors duration-200"
               >
                 Dashboard
               </button>
@@ -128,7 +121,7 @@ const Header: React.FC = () => {
                   handleLogout();
                   toggleMenu();
                 }}
-                className="text-gray-700 hover:text-gray-900 transition"
+                className="bg-primary text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
               >
                 Logout
               </button>
@@ -137,14 +130,14 @@ const Header: React.FC = () => {
                 <Link
                   to="/login"
                   onClick={toggleMenu}
-                  className="text-gray-700 hover:text-gray-900 transition"
+                  className="text-gray-700 hover:text-primary transition-colors duration-200"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
                   onClick={toggleMenu}
-                  className="bg-[#663635] text-white px-4 py-2 rounded hover:bg-opacity-90 transition"
+                  className="bg-primary text-white px-4 py-2 rounded hover:bg-green-600 transition-colors duration-200"
                 >
                   Sign Up
                 </Link>

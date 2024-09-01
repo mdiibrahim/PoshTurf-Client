@@ -34,6 +34,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
 
   const [bookFacility] = useBookFacilityMutation();
   const token = useSelector((state: RootState) => state.auth.token);
+  const role = useSelector((state: RootState) => state.auth.role);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,40 +62,53 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
   const handleBooking = async () => {
     try {
       setIsBookingLoading(true);
+      if (role === "admin") {
+        toast.error("Admins cannot book facilities.");
+        setIsBookingLoading(false);
+        return;
+      }
+
       if (!agreedToTerms) {
         toast.error(
           "You must agree to the terms and conditions before booking."
         );
+        setIsBookingLoading(false);
+        return;
+      }
+
+      if (selectedSlots.length === 0) {
+        toast.warning("Please select at least one time slot.");
+        setIsBookingLoading(false);
         return;
       }
 
       if (!token) {
         toast.error("You must be logged in to book a facility.");
-        navigate("/login");
-      } else if (selectedSlots.length > 0) {
-        const bookingData = {
-          facility: facilityId,
-          date: format(selectedDate, "yyyy-MM-dd"),
-          timeSlots: selectedSlots.map((slot) => ({
-            startTime: slot.startTime,
-            endTime: slot.endTime,
-          })),
-        };
-
-        const result = await bookFacility(bookingData).unwrap();
-
         setIsBookingLoading(false);
-        if (result.success) {
-          const bookingId = result?.data?._id;
-          if (bookingId) {
-            toast.info(
-              "Your Booking Received. You can find the booking also in your dashboard!"
-            );
-            navigate(`/checkout/${bookingId}`);
-          }
+        navigate("/login");
+        return;
+      }
+
+      const bookingData = {
+        facility: facilityId,
+        date: format(selectedDate, "yyyy-MM-dd"),
+        timeSlots: selectedSlots.map((slot) => ({
+          startTime: slot.startTime,
+          endTime: slot.endTime,
+        })),
+      };
+
+      const result = await bookFacility(bookingData).unwrap();
+
+      setIsBookingLoading(false);
+      if (result.success) {
+        const bookingId = result?.data?._id;
+        if (bookingId) {
+          toast.info(
+            "Your Booking Received. You can find the booking also in your dashboard!"
+          );
+          navigate(`/checkout/${bookingId}`);
         }
-      } else {
-        toast.warning("Please select at least one time slot.");
       }
     } catch (err) {
       setIsBookingLoading(false);
@@ -114,7 +128,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
           onChange={(date) => setSelectedDate(date as Date)}
           dateFormat="yyyy-MM-dd"
           className="p-2 border border-gray-400 rounded w-full"
-          minDate={new Date()}
+          minDate={new Date()} // Users can select today and any future date
           showDisabledMonthNavigation
         />
       </div>
@@ -181,7 +195,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
         <button
           onClick={handleBooking}
           disabled={!agreedToTerms || isBookingLoading}
-          className={`bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark mt-4 ${
+          className={`bg-primary text-white px-4 py-2 rounded hover:bg-green-600 mt-4 ${
             !agreedToTerms ? "opacity-50 cursor-not-allowed" : ""
           } w-full md:w-auto`}
         >

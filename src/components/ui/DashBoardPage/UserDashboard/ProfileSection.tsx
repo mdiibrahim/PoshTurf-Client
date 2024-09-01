@@ -1,7 +1,7 @@
 import React from "react";
 import { useGetUserProfileQuery } from "../../../../redux/api/user/userApi";
 import { FaUserCircle } from "react-icons/fa";
-import { ClipLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const ProfileSection: React.FC = () => {
@@ -11,7 +11,7 @@ const ProfileSection: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <ClipLoader color="#663635" size={50} />
+        <RingLoader color="#663635" size={50} />
       </div>
     );
   }
