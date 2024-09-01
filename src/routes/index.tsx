@@ -14,6 +14,8 @@ import FacilityDetailsPage from "../components/ui/Facilities/FacilityDetailsPage
 import ProtectedRoute from "./ProtectedRoute";
 import SuccessPage from "../pages/PaymentSuccess";
 import FailPage from "../pages/PaymentFail";
+import TermsAndConditions from "../pages/TermsAndConditions";
+import PrivacyPolicy from "../pages/PrivacyPOlicy";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +74,14 @@ export const router = createBrowserRouter([
       {
         path: "/payment/fail",
         element: <FailPage />,
+      },
+      {
+        path: "/terms",
+        element: <TermsAndConditions />,
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyPolicy />,
       },
     ],
   },

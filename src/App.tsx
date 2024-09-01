@@ -10,8 +10,9 @@ function App() {
   useEffect(() => {
     dispatch(loadUserFromToken());
   }, [dispatch]);
+
   return (
-    <div>
+    <div className="container  mx-auto px-4">
       <MainLayout />
     </div>
   );

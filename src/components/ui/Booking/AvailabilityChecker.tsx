@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,6 +11,8 @@ import {
   useCheckAvailabilityQuery,
 } from "../../../redux/api/booking/bookingApi";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface AvailabilityCheckerProps {
   facilityId: string;
@@ -23,7 +26,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
   const [selectedSlots, setSelectedSlots] = useState<
     Array<{ startTime: string; endTime: string }>
   >([]);
-  const [agreedToTerms, setAgreedToTerms] = useState(false); // State for terms agreement
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const { data: availableSlots, refetch } = useCheckAvailabilityQuery({
     date: format(selectedDate, "yyyy-MM-dd"),
     facility: facilityId,
@@ -59,11 +62,14 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
     try {
       setIsBookingLoading(true);
       if (!agreedToTerms) {
-        alert("You must agree to the terms and conditions before booking.");
+        toast.error(
+          "You must agree to the terms and conditions before booking."
+        );
         return;
       }
 
       if (!token) {
+        toast.error("You must be logged in to book a facility.");
         navigate("/login");
       } else if (selectedSlots.length > 0) {
         const bookingData = {
@@ -80,15 +86,17 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
         setIsBookingLoading(false);
         if (result.success) {
           const bookingId = result?.data?._id;
-
           if (bookingId) {
+            toast.success("Booking successful!");
             navigate(`/checkout/${bookingId}`);
           }
         }
+      } else {
+        toast.warning("Please select at least one time slot.");
       }
     } catch (err) {
       setIsBookingLoading(false);
-      console.log("book err", err);
+      toast.error("Booking failed. Please try again.");
     }
   };
 
@@ -110,7 +118,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
       <div className="mb-4">
         <h4 className="font-bold text-lg">Available Time Slots:</h4>
         {availableSlots?.data?.length ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 mt-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mt-4">
             {availableSlots.data.map((slot: any) => (
               <div
                 key={slot.startTime}
@@ -137,7 +145,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
       </div>
 
       <div className="mb-6">
-        {isBookingLoading && <div>Loading...</div>}
+        {isBookingLoading && <div className="text-center">Processing...</div>}
         <h3 className="text-2xl font-bold mb-4">Booking Details</h3>
         <p>Date: {format(selectedDate, "yyyy-MM-dd")}</p>
         <p>
@@ -173,7 +181,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
           disabled={!agreedToTerms || isBookingLoading}
           className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4 ${
             !agreedToTerms ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          } w-full md:w-auto`}
         >
           {isBookingLoading ? "Processing..." : "Confirm Booking"}
         </button>
