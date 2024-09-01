@@ -63,22 +63,22 @@ const AddFacilitySection: React.FC = () => {
   };
 
   return (
-    <div>
-      <h4 className="text-xl font-bold mb-2">Add New Facility</h4>
+    <div className="bg-white p-6 shadow-lg rounded-lg">
+      <h4 className="text-2xl font-bold mb-4 text-primary">Add New Facility</h4>
       <input
         type="text"
         name="name"
         placeholder="Facility Name"
         value={newFacility.name}
         onChange={handleInputChange}
-        className="p-2 border border-gray-400 rounded w-full"
+        className="p-2 border border-gray-300 rounded w-full mb-2"
       />
       <textarea
         name="description"
         placeholder="Facility Description"
         value={newFacility.description}
         onChange={handleInputChange}
-        className="p-2 border border-gray-400 rounded mt-2 w-full"
+        className="p-2 border border-gray-300 rounded w-full mb-2"
       />
       <input
         type="text"
@@ -86,7 +86,7 @@ const AddFacilitySection: React.FC = () => {
         placeholder="Price per Hour"
         value={newFacility.pricePerHour}
         onChange={handleInputChange}
-        className="p-2 border border-gray-400 rounded mt-2 w-full"
+        className="p-2 border border-gray-300 rounded w-full mb-2"
       />
       <input
         type="text"
@@ -94,7 +94,7 @@ const AddFacilitySection: React.FC = () => {
         placeholder="Location"
         value={newFacility.location}
         onChange={handleInputChange}
-        className="p-2 border border-gray-400 rounded mt-2 w-full"
+        className="p-2 border border-gray-300 rounded w-full mb-2"
       />
       <input
         type="text"
@@ -102,12 +102,12 @@ const AddFacilitySection: React.FC = () => {
         placeholder="Image URL"
         value={newFacility.image}
         onChange={handleInputChange}
-        className="p-2 border border-gray-400 rounded mt-2 w-full"
+        className="p-2 border border-gray-300 rounded w-full mb-2"
       />
       <button
         onClick={handleCreateFacility}
         disabled={isLoading}
-        className={`bg-green-500 text-white px-4 py-2 rounded mt-2 hover:bg-green-600 ${
+        className={`bg-primary text-white px-4 py-2 rounded mt-2 hover:bg-primary-dark transition-colors duration-300 ${
           isLoading && "opacity-50 cursor-not-allowed"
         }`}
       >

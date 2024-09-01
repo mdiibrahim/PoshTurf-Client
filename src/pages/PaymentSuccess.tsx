@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SuccessPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    toast.success("Booking Successfully Done!!");
     // Remove booking ID from local storage after successful payment
     localStorage.removeItem("currentBookingId");
   }, []);

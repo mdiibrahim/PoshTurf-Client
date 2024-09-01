@@ -4,22 +4,28 @@ import Slider from "react-slick";
 import { useGetTestimonialsQuery } from "../../../redux/api/review/reviewApi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const CustomerTestimonial: React.FC = () => {
   const { data, isLoading, error } = useGetTestimonialsQuery(undefined);
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div className="container mx-auto p-8 text-center">
-        <p>Loading testimonials...</p>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <ClipLoader color="#663635" size={50} />
       </div>
     );
-  if (error)
+  }
+
+  if (error) {
+    toast.error("Error loading facilities. Please try again.");
     return (
-      <div className="container mx-auto p-8 text-center">
-        <p>Error loading testimonials.</p>
+      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+        Error loading facilities. Please try again later.
       </div>
     );
+  }
 
   const settings = {
     dots: true,

@@ -87,7 +87,9 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
         if (result.success) {
           const bookingId = result?.data?._id;
           if (bookingId) {
-            toast.success("Booking successful!");
+            toast.info(
+              "Your Booking Received. You can find the booking also in your dashboard!"
+            );
             navigate(`/checkout/${bookingId}`);
           }
         }

@@ -3,20 +3,30 @@ import { useParams } from "react-router-dom";
 import { useGetFacilityByIdQuery } from "../../../redux/api/facility/facilityApi";
 import AvailabilityChecker from "../Booking/AvailabilityChecker";
 import ReviewSection from "../ReviewSection/ReviewSection";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const FacilityDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, error } = useGetFacilityByIdQuery(id);
   const facility = data?.data;
 
-  if (isLoading)
-    return <p className="text-center text-lg">Loading facility details...</p>;
-  if (error)
+  if (isLoading) {
     return (
-      <p className="text-center text-lg text-red-500">
-        Error loading facility details.
-      </p>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <ClipLoader color="#663635" size={50} />
+      </div>
     );
+  }
+
+  if (error) {
+    toast.error("Error loading facilities. Please try again.");
+    return (
+      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+        Error loading facilities. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-6 md:p-8">

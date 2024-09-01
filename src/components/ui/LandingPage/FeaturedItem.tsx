@@ -7,6 +7,8 @@ import { useGetTopRatedFacilitiesQuery } from "../../../redux/api/facility/facil
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const TopRatedFacilities: React.FC = () => {
   const { data, isLoading, error } = useGetTopRatedFacilitiesQuery(undefined);
@@ -24,19 +26,17 @@ const TopRatedFacilities: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto p-8 text-center">
-        <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"></div>
-        <p className="text-lg mt-2">Loading top-rated facilities...</p>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <ClipLoader color="#663635" size={50} />
       </div>
     );
   }
 
   if (error) {
+    toast.error("Error loading facilities. Please try again.");
     return (
-      <div className="container mx-auto p-8 text-center">
-        <p className="text-lg text-red-500">
-          Error loading top-rated facilities. Please try again later.
-        </p>
+      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+        Error loading facilities. Please try again later.
       </div>
     );
   }

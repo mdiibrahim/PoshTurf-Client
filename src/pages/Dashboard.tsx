@@ -8,7 +8,7 @@ const Dashboard: React.FC = () => {
   const role = useSelector((state: RootState) => state.auth.role);
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen my-24 bg-gradient-to-r from-green-50 to-blue-100">
       {role === "admin" ? <AdminDashboard /> : <UserDashboard />}
     </div>
   );

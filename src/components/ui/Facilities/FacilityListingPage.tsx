@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import FacilityCard from "./FacilityCard";
 import { useGetFacilitiesQuery } from "../../../redux/api/facility/facilityApi";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const FacilityListingPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,8 +13,22 @@ const FacilityListingPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [priceFilter, setPriceFilter] = useState<number | null>(null);
 
-  if (isLoading) return <p>Loading facilities...</p>;
-  if (error) return <p>Error loading facilities.</p>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <ClipLoader color="#663635" size={50} />
+      </div>
+    );
+  }
+
+  if (error) {
+    toast.error("Error loading facilities. Please try again.");
+    return (
+      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+        Error loading facilities. Please try again later.
+      </div>
+    );
+  }
 
   // Filter facilities based on search term and price filter
   const filteredFacilities = facilities?.filter(

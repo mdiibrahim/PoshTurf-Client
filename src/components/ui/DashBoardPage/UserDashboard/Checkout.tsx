@@ -6,6 +6,7 @@ import { RootState } from "../../../../redux/store";
 import { useGetBookingDetailsQuery } from "../../../../redux/api/booking/bookingApi";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const CheckoutPage: React.FC = () => {
   const { bookingId } = useParams<{ bookingId: string }>();
@@ -17,8 +18,22 @@ const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const booking = data?.data[0] || [];
 
-  if (isLoading) return <p>Loading booking details...</p>;
-  if (error) return <p>Error loading booking details.</p>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <ClipLoader color="#663635" size={50} />
+      </div>
+    );
+  }
+
+  if (error) {
+    toast.error("Error loading facilities. Please try again.");
+    return (
+      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+        Error loading facilities. Please try again later.
+      </div>
+    );
+  }
 
   const handlePayment = async () => {
     if (!token) {
