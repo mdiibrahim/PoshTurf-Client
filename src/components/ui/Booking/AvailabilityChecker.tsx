@@ -102,7 +102,9 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
 
   return (
     <div className="mt-8">
-      <h3 className="text-xl font-bold mb-4">Check Availability & Book</h3>
+      <h3 className="text-2xl font-bold mb-4 text-primary">
+        Check Availability & Book
+      </h3>
 
       <div className="mb-4">
         <DatePicker
@@ -118,25 +120,23 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
       <div className="mb-4">
         <h4 className="font-bold text-lg">Available Time Slots:</h4>
         {availableSlots?.data?.length ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mt-4">
+          <div className="flex flex-wrap gap-3 mt-4">
             {availableSlots.data.map((slot: any) => (
-              <div
+              <button
                 key={slot.startTime}
-                className={`p-4 border rounded-lg cursor-pointer transition-transform transform hover:scale-105 shadow-md ${
+                onClick={() => handleSlotSelection(slot)}
+                className={`px-4 py-2 border rounded-lg transition-all duration-300 ${
                   selectedSlots.some(
                     (s) =>
                       s.startTime === slot.startTime &&
                       s.endTime === slot.endTime
                   )
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-gray-800"
+                    ? "bg-primary text-white"
+                    : "bg-white text-gray-800 border-gray-400 hover:bg-gray-100"
                 }`}
-                onClick={() => handleSlotSelection(slot)}
               >
-                <p className="text-lg font-semibold">
-                  {slot.startTime} - {slot.endTime}
-                </p>
-              </div>
+                {slot.startTime} - {slot.endTime}
+              </button>
             ))}
           </div>
         ) : (
@@ -179,7 +179,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
         <button
           onClick={handleBooking}
           disabled={!agreedToTerms || isBookingLoading}
-          className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4 ${
+          className={`bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark mt-4 ${
             !agreedToTerms ? "opacity-50 cursor-not-allowed" : ""
           } w-full md:w-auto`}
         >

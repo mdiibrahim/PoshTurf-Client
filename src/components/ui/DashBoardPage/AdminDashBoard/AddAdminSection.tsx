@@ -10,10 +10,15 @@ const AddAdminSection: React.FC = () => {
     phone: "",
     address: "",
   });
+  console.log(newAdmin);
 
   const handleCreateAdmin = async () => {
-    await createAdmin(newAdmin);
-    setNewAdmin({ name: "", email: "", password: "", phone: "", address: "" });
+    try {
+      await createAdmin(newAdmin);
+    } catch (err) {
+      console.log(err);
+    }
+    // setNewAdmin({ name: "", email: "", password: "", phone: "", address: "" });
   };
 
   return (

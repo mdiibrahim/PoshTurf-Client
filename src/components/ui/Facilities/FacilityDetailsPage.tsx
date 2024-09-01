@@ -9,25 +9,33 @@ const FacilityDetailsPage: React.FC = () => {
   const { data, isLoading, error } = useGetFacilityByIdQuery(id);
   const facility = data?.data;
 
-  if (isLoading) return <p>Loading facility details...</p>;
-  if (error) return <p>Error loading facility details.</p>;
+  if (isLoading)
+    return <p className="text-center text-lg">Loading facility details...</p>;
+  if (error)
+    return (
+      <p className="text-center text-lg text-red-500">
+        Error loading facility details.
+      </p>
+    );
 
   return (
-    <div className="container mx-auto p-8">
-      <h2 className="text-3xl font-bold mb-4">{facility.name}</h2>
+    <div className="container mx-auto p-6 md:p-8">
+      <h2 className="text-4xl font-bold text-primary mb-6">{facility.name}</h2>
 
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row gap-6">
         <img
           src={facility.image}
           alt={facility.name}
-          className="w-full md:w-1/2 h-auto object-cover rounded mb-4 md:mr-6"
+          className="w-full md:w-1/2 h-64 object-cover rounded shadow-lg"
         />
-        <div className="md:w-1/2">
-          <p className="text-gray-600 mb-4">Location: {facility.location}</p>
-          <p className="text-gray-600 mb-4">
-            Price: ${facility.pricePerHour}/hr
+        <div className="md:w-1/2 space-y-4">
+          <p className="text-gray-700">
+            <strong>Location:</strong> {facility.location}
           </p>
-          <p className="text-gray-600 mb-4">{facility.description}</p>
+          <p className="text-gray-700">
+            <strong>Price:</strong> ${facility.pricePerHour}/hr
+          </p>
+          <p className="text-gray-700">{facility.description}</p>
         </div>
       </div>
 

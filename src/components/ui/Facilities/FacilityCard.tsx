@@ -27,7 +27,7 @@ const FacilityCard: React.FC<FacilityCardProps> = ({
         <p className="text-gray-700 mb-4">Location: {location}</p>
         <Link
           to={`/facility/${id}`}
-          className="inline-block bg-[#663635] text-white px-4 py-2 rounded hover:bg-[#512b29] transition-colors"
+          className="inline-block bg-[#663635] w-full text-center text-white px-4 py-2 rounded hover:bg-[#512b29] transition-colors"
         >
           View Details
         </Link>

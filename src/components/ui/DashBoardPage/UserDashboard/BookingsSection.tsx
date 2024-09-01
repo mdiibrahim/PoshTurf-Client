@@ -6,13 +6,14 @@ import {
 } from "../../../../redux/api/user/userApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaCalendarAlt, FaMoneyCheckAlt } from "react-icons/fa";
 
 const BookingsSection: React.FC = () => {
   const { data, refetch, isLoading, error } =
     useGetUserBookingsQuery(undefined);
   const [cancelBooking] = useCancelBookingMutation();
   const navigate = useNavigate();
-  // Handle booking cancellation
+
   const handleCancelBooking = async (id: string) => {
     try {
       const result = await cancelBooking(id);
@@ -29,9 +30,8 @@ const BookingsSection: React.FC = () => {
     }
   };
 
-  // Handle payment
   const handleMakePayment = (booking: any) => {
-    navigate("/checkout", { state: { booking } }); // Use navigate with state
+    navigate(`/checkout/${booking._id}`, { state: { booking } });
   };
 
   if (isLoading) {
@@ -43,42 +43,48 @@ const BookingsSection: React.FC = () => {
   }
 
   return (
-    <section>
-      <h3 className="text-2xl font-bold mb-4">My Bookings</h3>
+    <section className="bg-white shadow-lg rounded-lg p-8">
+      <h3 className="text-3xl font-bold mb-6">My Bookings</h3>
       {data?.data?.length ? (
-        <ul className="space-y-4">
+        <ul className="space-y-6">
           {data?.data?.map((booking: any) => (
             <li
               key={booking._id}
-              className="bg-white shadow rounded-lg p-4 flex justify-between items-center"
+              className="flex flex-col md:flex-row justify-between items-center bg-gray-100 p-4 rounded-lg shadow"
             >
-              <div>
-                <h4 className="font-bold text-lg">{booking.facilityName}</h4>
-                <p>Date: {new Date(booking.date).toLocaleDateString()}</p>
-                <p>Status: {booking.isBooked}</p>
+              <div className="flex items-center space-x-4">
+                <FaCalendarAlt className="text-primary text-3xl" />
+                <div>
+                  <h4 className="font-bold text-lg">{booking.facilityName}</h4>
+                  <p className="text-gray-700">
+                    Date: {new Date(booking.date).toLocaleDateString()}
+                  </p>
+                  <p className="text-gray-700">Status: {booking.isBooked}</p>
+                </div>
               </div>
-              <div className="flex space-x-4">
+              <div className="mt-4 md:mt-0 flex space-x-4">
                 <button
                   disabled={booking.isBooked === "confirmed"}
                   onClick={() => handleCancelBooking(booking._id)}
-                  className={`bg-red-500 text-white px-4 py-2 rounded  ${
+                  className={`px-4 py-2 rounded-lg text-white ${
                     booking.isBooked === "confirmed"
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-red-600"
+                      : "bg-red-500 hover:bg-red-600"
                   }`}
                 >
-                  Cancel Booking
+                  Cancel
                 </button>
                 <button
                   disabled={booking.isBooked === "confirmed"}
                   onClick={() => handleMakePayment(booking)}
-                  className={`px-4 py-2 rounded text-white ${
+                  className={`px-4 py-2 rounded-lg text-white ${
                     booking.isBooked === "confirmed"
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-blue-600"
+                      : "bg-green-500 hover:bg-green-600"
                   }`}
                 >
-                  Make Payment
+                  <FaMoneyCheckAlt className="inline mr-2" />
+                  Pay
                 </button>
               </div>
             </li>

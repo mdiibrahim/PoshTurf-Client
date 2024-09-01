@@ -48,9 +48,9 @@ export const adminApi = baseApi.injectEndpoints({
     }),
     createAdmin: builder.mutation({
       query: (newAdmin) => ({
-        url: "/auth/register",
-        method: "POST", // POST method for creating admin
-        body: { ...newAdmin, role: "admin" }, // Add body with new admin data
+        url: "/auth/create-admin",
+        method: "POST",
+        body: { ...newAdmin },
       }),
     }),
   }),

@@ -15,7 +15,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import SuccessPage from "../pages/PaymentSuccess";
 import FailPage from "../pages/PaymentFail";
 import TermsAndConditions from "../pages/TermsAndConditions";
-import PrivacyPolicy from "../pages/PrivacyPOlicy";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +57,14 @@ export const router = createBrowserRouter([
             path: "/checkout/:bookingId",
             element: <CheckoutPage />,
           },
+          {
+            path: "/payment/success",
+            element: <SuccessPage />,
+          },
+          {
+            path: "/payment/fail",
+            element: <FailPage />,
+          },
         ],
       },
       {
@@ -67,14 +75,7 @@ export const router = createBrowserRouter([
         path: "/facility/:id",
         element: <FacilityDetailsPage />,
       },
-      {
-        path: "/payment/success",
-        element: <SuccessPage />,
-      },
-      {
-        path: "/payment/fail",
-        element: <FailPage />,
-      },
+
       {
         path: "/terms",
         element: <TermsAndConditions />,

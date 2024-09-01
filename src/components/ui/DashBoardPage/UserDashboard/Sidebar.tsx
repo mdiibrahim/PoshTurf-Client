@@ -6,14 +6,14 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
   return (
-    <aside className="w-1/4 bg-purple-500 p-8 text-white">
-      <div className="text-2xl font-bold mb-8">Dashboard</div>
+    <aside className="w-full lg:w-1/4 bg-gradient-to-r from-green-50 to-blue-100 p-8 text-white transition-transform duration-300 transform lg:translate-x-0 translate-x-[-100%] lg:relative absolute shadow-lg">
+      <div className="text-3xl font-extrabold mb-8 text-primary">Dashboard</div>
       <nav>
         <ul className="space-y-4">
           <li>
             <button
               onClick={() => setActiveSection("bookings")}
-              className="hover:bg-purple-600 p-2 rounded block"
+              className="hover:bg-purple-600 hover:bg-opacity-70 p-2 rounded-lg block w-full text-left transition-colors duration-200 bg-primary"
             >
               Bookings
             </button>
@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
           <li>
             <button
               onClick={() => setActiveSection("profile")}
-              className="hover:bg-purple-600 p-2 rounded block"
+              className="hover:bg-purple-600 hover:bg-opacity-70 p-2 rounded-lg block w-full text-left transition-colors duration-200 bg-primary"
             >
               Profile
             </button>

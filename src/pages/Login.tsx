@@ -8,16 +8,37 @@ import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    const newErrors = { email: "", password: "" };
+
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+    }
+
+    setErrors(newErrors);
+
+    return !newErrors.email && !newErrors.password;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const { token } = await login(formData).unwrap();
       dispatch(setCredentials({ token }));
@@ -34,42 +55,64 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-lg">
-      <h2 className="text-4xl font-bold text-center mb-6">Login</h2>
-      {error && (
-        <div className="bg-red-100 text-red-600 p-3 rounded mb-4">
-          Login error
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="form-control">
-          <label className="label text-lg">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-            placeholder="Your email"
-            required
-          />
-        </div>
-        <div className="form-control">
-          <label className="label text-lg">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-            placeholder="Your password"
-            required
-          />
-        </div>
-        <button type="submit" className="btn text-white bg-primary w-full">
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+    <div className="container mx-auto p-20 my-20 max-w-lg bg-gradient-to-r from-green-50 to-blue-100">
+      <div className="bg-white shadow-md rounded-lg p-8">
+        <h2 className="text-4xl font-bold text-center mb-6 text-primary">
+          Login
+        </h2>
+        {errors.email || errors.password ? (
+          <div className="bg-red-100 text-red-600 p-4 rounded mb-6 text-center">
+            Please fix the errors below
+          </div>
+        ) : null}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="form-group">
+            <label className="block text-lg font-medium mb-2 text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`w-full p-3 border ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary`}
+              placeholder="Your email"
+              required
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-2">{errors.email}</p>
+            )}
+          </div>
+          <div className="form-group">
+            <label className="block text-lg font-medium mb-2 text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={`w-full p-3 border ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary`}
+              placeholder="Your password"
+              required
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-2">{errors.password}</p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-primary text-white rounded-lg shadow-lg hover:bg-primary-dark transition-all duration-300"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

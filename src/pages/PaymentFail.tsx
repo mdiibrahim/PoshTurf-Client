@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const FailPage: React.FC = () => {
   const navigate = useNavigate();
 
+  // Attempt to redirect every 5 seconds if the booking ID is present in local storage
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const bookingId = localStorage.getItem("currentBookingId");
+      if (bookingId) {
+        navigate(`/checkout/${bookingId}`);
+        localStorage.removeItem("currentBookingId");
+        clearInterval(intervalId); // Clear the interval once redirected
+      }
+    }, 5000); // Retry every 5 seconds
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [navigate]);
+
   const handleRetryPayment = () => {
-    navigate("/");
+    const bookingId = localStorage.getItem("currentBookingId");
+    if (bookingId) {
+      navigate(`/checkout/${bookingId}`);
+      localStorage.removeItem("currentBookingId");
+    }
   };
 
   return (

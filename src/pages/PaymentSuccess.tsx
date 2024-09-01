@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SuccessPage: React.FC = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Remove booking ID from local storage after successful payment
+    localStorage.removeItem("currentBookingId");
+  }, []);
+
   const handleGoHome = () => {
     navigate("/");
   };
+
   return (
     <div className="container mx-auto p-8 text-center">
       <h2 className="text-4xl font-bold mb-6 text-green-600">

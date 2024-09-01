@@ -43,7 +43,7 @@ const achievementsData = [
 const Achievement: React.FC = () => {
   return (
     <div className="container my-10 p-12 bg-gradient-to-r from-green-50 to-blue-100 rounded-lg shadow-lg">
-      <h2 className="text-4xl font-extrabold text-center mb-12 text-blue-700">
+      <h2 className="text-4xl font-extrabold text-center mb-12 text-primary">
         Our Achievements
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">

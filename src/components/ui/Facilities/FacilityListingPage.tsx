@@ -85,7 +85,7 @@ const FacilityListingPage: React.FC = () => {
           <button
             key={index + 1}
             onClick={() => paginate(index + 1)}
-            className={`mx-1 px-3 py-2 rounded w-full ${
+            className={`mx-1 px-3 py-2 rounded  ${
               currentPage === index + 1
                 ? "bg-primary text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
