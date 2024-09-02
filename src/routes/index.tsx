@@ -71,15 +71,15 @@ export const router = createBrowserRouter([
             path: "/checkout/:bookingId",
             element: <CheckoutPage />,
           },
-          {
-            path: "/payment/success",
-            element: <SuccessPage />,
-          },
-          {
-            path: "/payment/fail",
-            element: <FailPage />,
-          },
         ],
+      },
+      {
+        path: "/payment/success",
+        element: <SuccessPage />,
+      },
+      {
+        path: "/payment/fail",
+        element: <FailPage />,
       },
       {
         path: "*",
