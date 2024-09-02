@@ -1,6 +1,5 @@
 import { baseApi } from "../api";
 
-// Authentication API endpoints
 export const facilityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getFacilities: builder.query({

@@ -46,7 +46,7 @@ const CheckoutPage: React.FC = () => {
         localStorage.setItem("currentBookingId", bookingId as string);
 
         const paymentResponse = await axios.post(
-          "http://localhost:5000/api/payment",
+          "https://posh-turf-server.vercel.app/api/payment",
           {
             transactionId,
             totalPrice: booking.payableAmount,

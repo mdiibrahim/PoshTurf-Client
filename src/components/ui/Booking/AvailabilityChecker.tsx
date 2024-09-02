@@ -38,7 +38,7 @@ const AvailabilityChecker: React.FC<AvailabilityCheckerProps> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    refetch(); // Refetch slots whenever the selected date changes
+    refetch();
   }, [selectedDate, refetch]);
 
   const handleSlotSelection = (slot: {

@@ -22,10 +22,9 @@ const Login: React.FC = () => {
   }
 
   if (error) {
-    toast.error("Error loading facilities. Please try again.");
     return (
       <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
-        Error loading facilities. Please try again later.
+        Error occured!!!. Please try again.
       </div>
     );
   }

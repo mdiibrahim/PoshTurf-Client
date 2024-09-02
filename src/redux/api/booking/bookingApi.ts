@@ -1,6 +1,5 @@
 import { baseApi } from "../api";
 
-// Authentication API endpoints
 export const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     checkAvailability: builder.query({

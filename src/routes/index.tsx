@@ -42,9 +42,23 @@ export const router = createBrowserRouter([
         path: "/signup",
         element: <SignUp />,
       },
+
       {
-        path: "*",
-        element: <NotFound />,
+        path: "/facilities",
+        element: <FacilityListingPage />,
+      },
+      {
+        path: "/facility/:id",
+        element: <FacilityDetailsPage />,
+      },
+
+      {
+        path: "/terms",
+        element: <TermsAndConditions />,
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyPolicy />,
       },
       {
         element: <ProtectedRoute />,
@@ -68,21 +82,8 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "/facilities",
-        element: <FacilityListingPage />,
-      },
-      {
-        path: "/facility/:id",
-        element: <FacilityDetailsPage />,
-      },
-
-      {
-        path: "/terms",
-        element: <TermsAndConditions />,
-      },
-      {
-        path: "/privacy",
-        element: <PrivacyPolicy />,
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

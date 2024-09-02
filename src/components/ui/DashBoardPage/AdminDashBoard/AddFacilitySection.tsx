@@ -10,7 +10,7 @@ const AddFacilitySection: React.FC = () => {
     pricePerHour: "",
     location: "",
     image: "",
-    isFeatured: false, // Boolean value
+    isFeatured: false,
   });
 
   const handleInputChange = (

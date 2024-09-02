@@ -5,7 +5,7 @@ import { useGetTestimonialsQuery } from "../../../redux/api/review/reviewApi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { RingLoader } from "react-spinners";
-import { toast } from "react-toastify";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const CustomerTestimonial: React.FC = () => {
   const { data, isLoading, error } = useGetTestimonialsQuery(undefined);
@@ -18,13 +18,15 @@ const CustomerTestimonial: React.FC = () => {
     );
   }
 
-  if (error) {
-    toast.error("Error loading testimonials. Please try again.");
-    return (
-      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
-        Error loading testimonials. Please try again later.
-      </div>
-    );
+  if (error && "data" in error) {
+    const fetchError = error as FetchBaseQueryError;
+    if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          No Reviews At all!!
+        </div>
+      );
+    }
   }
 
   const settings = {
