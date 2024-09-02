@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import RingLoader from "react-spinners/RingLoader";
 
 const WelcomeSection: React.FC = () => {
-  const { data: user, isLoading, error } = useGetUserProfileQuery(undefined);
+  const { data, isLoading, error } = useGetUserProfileQuery(undefined);
 
   if (isLoading) {
     return (
@@ -31,7 +31,9 @@ const WelcomeSection: React.FC = () => {
       }}
     >
       <div className="bg-black bg-opacity-60 p-8 rounded-md text-center">
-        <h1 className="text-5xl font-bold mb-4">Welcome, {user?.name}!</h1>
+        <h1 className="text-5xl font-bold mb-4">
+          Welcome {data?.data?.user?.name}!
+        </h1>
         <p className="text-xl">
           We're glad to have you back. Ready to manage your bookings and
           facilities?

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -64,7 +65,6 @@ const CheckoutPage: React.FC = () => {
           toast.error("Failed to initiate payment.");
         }
       } catch (err) {
-        console.log(err);
         toast.error("Payment failed. Please try again.");
       }
     }
