@@ -7,6 +7,7 @@ import {
 import { toast } from "react-toastify";
 import RingLoader from "react-spinners/RingLoader";
 import UpdateFacilitySection from "./UpdateFacilitySection";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const FacilitiesSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllFacilitiesQuery(undefined);
@@ -36,13 +37,15 @@ const FacilitiesSection: React.FC = () => {
     );
   }
 
-  if (error) {
-    toast.error("Error loading facilities. Please try again.");
-    return (
-      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
-        Error loading facilities. Please try again later.
-      </div>
-    );
+  if (error && "data" in error) {
+    const fetchError = error as FetchBaseQueryError;
+    if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          No Facilities At all!!
+        </div>
+      );
+    }
   }
 
   return (

@@ -20,10 +20,13 @@ const UpdateFacilitySection: React.FC<UpdateFacilitySectionProps> = ({
     pricePerHour: facility.pricePerHour.toString(), // Ensure it's a string for input
     location: facility.location,
     image: facility.image,
+    isFeatured: facility.isFeatured ? "true" : "false", // Convert boolean to string for select field
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setUpdatedFacility({
@@ -33,11 +36,12 @@ const UpdateFacilitySection: React.FC<UpdateFacilitySectionProps> = ({
   };
 
   const handleUpdateFacility = async () => {
-    // Convert pricePerHour to number
+    // Convert pricePerHour to number and isFeatured to boolean
     const facilityData = {
       id: facility._id,
       ...updatedFacility,
       pricePerHour: parseFloat(updatedFacility.pricePerHour),
+      isFeatured: updatedFacility.isFeatured === "true", // Convert back to boolean
     };
 
     // Check if pricePerHour is a valid number
@@ -123,6 +127,20 @@ const UpdateFacilitySection: React.FC<UpdateFacilitySectionProps> = ({
           onChange={handleInputChange}
           className="p-2 border border-gray-400 rounded w-full mb-4"
         />
+
+        <div className="mb-4">
+          <label className="block mb-2 font-bold">Featured Facility</label>
+          <select
+            name="isFeatured"
+            value={updatedFacility.isFeatured}
+            onChange={handleInputChange}
+            className="p-2 border border-gray-400 rounded w-full"
+          >
+            <option value="false">False</option>
+            <option value="true">True</option>
+          </select>
+        </div>
+
         <div className="flex justify-end space-x-4">
           <button
             onClick={onClose}

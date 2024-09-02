@@ -3,15 +3,17 @@ import React, { useState } from "react";
 import FacilityCard from "./FacilityCard";
 import { useGetFacilitiesQuery } from "../../../redux/api/facility/facilityApi";
 import { RingLoader } from "react-spinners";
-import { toast } from "react-toastify";
+
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const FacilityListingPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [facilitiesPerPage] = useState(6); // Number of facilities per page
   const { data, isLoading, error } = useGetFacilitiesQuery(undefined);
+
   const facilities = data?.data;
   const [searchTerm, setSearchTerm] = useState("");
-  const [priceFilter, setPriceFilter] = useState<number | null>(null);
+  const [sortOrder, setSortOrder] = useState<string>("default");
 
   if (isLoading) {
     return (
@@ -21,22 +23,33 @@ const FacilityListingPage: React.FC = () => {
     );
   }
 
-  if (error) {
-    toast.error("Error loading facilities. Please try again.");
-    return (
-      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
-        Error loading facilities. Please try again later.
-      </div>
-    );
+  if (error && "data" in error) {
+    const fetchError = error as FetchBaseQueryError;
+    if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          No Facilities At all!!
+        </div>
+      );
+    }
   }
 
-  // Filter facilities based on search term and price filter
-  const filteredFacilities = facilities?.filter(
-    (facility: any) =>
-      facility.isDeleted === false &&
-      facility.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (priceFilter === null || facility.pricePerHour <= priceFilter)
-  );
+  // Filter and Sort facilities based on search term, price filter, and sort order
+  const filteredFacilities = facilities
+    ?.filter(
+      (facility: any) =>
+        facility.isDeleted === false &&
+        facility.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    ?.sort((a: any, b: any) => {
+      if (sortOrder === "low-to-high") {
+        return a.pricePerHour - b.pricePerHour;
+      }
+      if (sortOrder === "high-to-low") {
+        return b.pricePerHour - a.pricePerHour;
+      }
+      return 0; // default order
+    });
 
   // Pagination Logic
   const indexOfLastFacility = currentPage * facilitiesPerPage;
@@ -54,7 +67,7 @@ const FacilityListingPage: React.FC = () => {
     <div className="container mx-auto p-8">
       <h2 className="text-3xl font-bold mb-4">Available Facilities</h2>
 
-      {/* Search and Filters */}
+      {/* Search, Filters, and Sort */}
       <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
         <input
           type="text"
@@ -63,17 +76,15 @@ const FacilityListingPage: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 border border-gray-400 rounded w-full"
         />
+
         <select
-          value={priceFilter ?? ""}
-          onChange={(e) =>
-            setPriceFilter(e.target.value ? Number(e.target.value) : null)
-          }
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
           className="p-2 border border-gray-400 rounded"
         >
-          <option value="">Filter by Price</option>
-          <option value="50">Up to $50/hr</option>
-          <option value="100">Up to $100/hr</option>
-          <option value="200">Up to $200/hr</option>
+          <option value="default">Sort by Default</option>
+          <option value="low-to-high">Price: Low to High</option>
+          <option value="high-to-low">Price: High to Low</option>
         </select>
       </div>
 

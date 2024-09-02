@@ -10,14 +10,18 @@ const AddFacilitySection: React.FC = () => {
     pricePerHour: "",
     location: "",
     image: "",
+    isFeatured: false, // Boolean value
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
+    const { name, value } = e.target;
     setNewFacility({
       ...newFacility,
-      [e.target.name]: e.target.value,
+      [name]: name === "isFeatured" ? value === "true" : value, // Convert to boolean for isFeatured
     });
   };
 
@@ -49,12 +53,15 @@ const AddFacilitySection: React.FC = () => {
     try {
       await createFacility(facilityData).unwrap();
       toast.success("Facility created successfully!");
+
+      // Reset form fields
       setNewFacility({
         name: "",
         description: "",
         pricePerHour: "",
         location: "",
         image: "",
+        isFeatured: false, // Reset to default
       });
     } catch (error) {
       toast.error("Failed to create facility. Please try again.");
@@ -104,6 +111,18 @@ const AddFacilitySection: React.FC = () => {
         onChange={handleInputChange}
         className="p-2 border border-gray-300 rounded w-full mb-2"
       />
+      <div className="mb-4">
+        <label className="block mb-2 font-bold">Featured Facility</label>
+        <select
+          name="isFeatured"
+          value={newFacility.isFeatured.toString()}
+          onChange={handleInputChange}
+          className="p-2 border border-gray-300 rounded w-full"
+        >
+          <option value="false">False</option>
+          <option value="true">True</option>
+        </select>
+      </div>
       <button
         onClick={handleCreateFacility}
         disabled={isLoading}

@@ -3,6 +3,7 @@ import React from "react";
 import { useGetAllBookingsQuery } from "../../../../redux/api/user/adminApi";
 import { toast } from "react-toastify";
 import RingLoader from "react-spinners/RingLoader";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const BookingsSection: React.FC = () => {
   const { data, error, isLoading } = useGetAllBookingsQuery(undefined);
@@ -13,6 +14,17 @@ const BookingsSection: React.FC = () => {
         <RingLoader color="#663635" size={50} />
       </div>
     );
+  }
+
+  if (error && "data" in error) {
+    const fetchError = error as FetchBaseQueryError;
+    if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          No Bookings At all!!
+        </div>
+      );
+    }
   }
 
   if (error) {

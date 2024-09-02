@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useGetTopRatedFacilitiesQuery } from "../../../redux/api/facility/facilityApi";
@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { RingLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const TopRatedFacilities: React.FC = () => {
   const { data, isLoading, error } = useGetTopRatedFacilitiesQuery(undefined);
@@ -24,6 +25,13 @@ const TopRatedFacilities: React.FC = () => {
     adaptiveHeight: true, // Adjusts slider height based on content
   };
 
+  // Use useEffect to show toast when there's an error
+  useEffect(() => {
+    if (error) {
+      toast.error("Error loading facilities. Please try again.");
+    }
+  }, [error]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
@@ -32,13 +40,15 @@ const TopRatedFacilities: React.FC = () => {
     );
   }
 
-  if (error) {
-    toast.error("Error loading facilities. Please try again.");
-    return (
-      <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
-        Error loading facilities. Please try again later.
-      </div>
-    );
+  if (error && "data" in error) {
+    const fetchError = error as FetchBaseQueryError;
+    if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          No Facilities At all!!
+        </div>
+      );
+    }
   }
 
   return (

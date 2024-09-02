@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface LayoutProps {
@@ -27,9 +26,6 @@ const SharedDashboard: React.FC<LayoutProps> = ({ sections }) => {
           {sections[activeSection]}
         </div>
       </main>
-
-      {/* Toast Notifications */}
-      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };

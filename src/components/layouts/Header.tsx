@@ -11,8 +11,7 @@ const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // Access token and role from Redux state
-  const token = useSelector((state: RootState) => state?.auth.token);
+  const token = useSelector((state: RootState) => state?.auth?.token);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

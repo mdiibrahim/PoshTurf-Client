@@ -19,10 +19,10 @@ const CustomerTestimonial: React.FC = () => {
   }
 
   if (error) {
-    toast.error("Error loading facilities. Please try again.");
+    toast.error("Error loading testimonials. Please try again.");
     return (
       <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
-        Error loading facilities. Please try again later.
+        Error loading testimonials. Please try again later.
       </div>
     );
   }
@@ -58,38 +58,36 @@ const CustomerTestimonial: React.FC = () => {
       </h2>
       <Slider {...settings}>
         {data?.data?.map((testimonial: any) => (
-          <div
-            key={testimonial._id}
-            className="p-4"
-            style={{
-              backgroundImage: `url(${
-                testimonial?.facility?.image || "/default-image.jpg"
-              })`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              borderRadius: "8px",
-              height: "350px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <div className="bg-white bg-opacity-80 shadow rounded-lg p-10 max-w-md text-center">
-              <h3 className="text-xl font-bold mb-2">
-                {testimonial.facility.name || "Facility Name"}
-              </h3>
-              <p className="text-sm text-gray-700 mb-4">
-                {testimonial.facility.location || "Facility Location"}
-              </p>
-              <p className="text-lg font-semibold mb-2">
-                "{testimonial.comment || "No comment provided."}"
-              </p>
-              <p className="text-sm text-gray-500">
-                - {testimonial.user.name || "Anonymous"}
-              </p>
-              <div className="text-yellow-500">
-                {"★".repeat(testimonial.rating)}
-                {"☆".repeat(5 - testimonial.rating)}
+          <div key={testimonial._id} className="p-4">
+            <div
+              className="relative h-[350px] rounded-lg shadow-lg overflow-hidden"
+              style={{
+                backgroundImage: `url(${testimonial?.facility?.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              {/* Background overlay */}
+              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4">
+                {/* Content */}
+                <div className="text-center text-white p-6 bg-primary bg-opacity-60 rounded-lg max-w-md mx-auto">
+                  <h3 className="text-xl font-bold mb-2">
+                    {testimonial.facility.name || "Facility Name"}
+                  </h3>
+                  <p className="text-sm mb-4">
+                    {testimonial.facility.location || "Facility Location"}
+                  </p>
+                  <p className="text-lg font-semibold mb-4">
+                    "{testimonial.comment || "No comment provided."}"
+                  </p>
+                  <p className="text-sm">
+                    - {testimonial.user.name || "Anonymous"}
+                  </p>
+                  <div className="text-yellow-500 mt-2">
+                    {"★".repeat(testimonial.rating)}
+                    {"☆".repeat(5 - testimonial.rating)}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
