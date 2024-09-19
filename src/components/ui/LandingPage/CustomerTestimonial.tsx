@@ -7,6 +7,20 @@ import "slick-carousel/slick/slick-theme.css";
 import { RingLoader } from "react-spinners";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
+interface Testimonial {
+  _id: string;
+  facility: {
+    name: string;
+    location: string;
+    image: string;
+  };
+  comment: string;
+  rating: number;
+  user: {
+    name: string;
+  };
+}
+
 const CustomerTestimonial: React.FC = () => {
   const { data, isLoading, error } = useGetTestimonialsQuery(undefined);
 
@@ -18,7 +32,8 @@ const CustomerTestimonial: React.FC = () => {
     );
   }
 
-  if (error && "data" in error) {
+  // Enhanced error handling
+  if (error) {
     const fetchError = error as FetchBaseQueryError;
     if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
       return (
@@ -26,7 +41,22 @@ const CustomerTestimonial: React.FC = () => {
           No Reviews At all!!
         </div>
       );
+    } else {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          An error occurred while fetching testimonials. Please try again later.
+        </div>
+      );
     }
+  }
+
+  // Handle case when there's no testimonials data
+  if (!data?.data || data.data.length === 0) {
+    return (
+      <div className="bg-yellow-100 text-yellow-700 p-4 rounded-lg text-center">
+        No Testimonials Available at the moment.
+      </div>
+    );
   }
 
   const settings = {
@@ -59,12 +89,12 @@ const CustomerTestimonial: React.FC = () => {
         Customer Testimonials
       </h2>
       <Slider {...settings}>
-        {data?.data?.map((testimonial: any) => (
+        {data.data.map((testimonial: Testimonial) => (
           <div key={testimonial._id} className="p-4">
             <div
               className="relative h-[350px] rounded-lg shadow-lg overflow-hidden"
               style={{
-                backgroundImage: `url(${testimonial?.facility?.image})`,
+                backgroundImage: `url(${testimonial.facility.image})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}

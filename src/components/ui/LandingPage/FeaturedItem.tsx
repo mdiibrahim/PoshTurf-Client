@@ -11,6 +11,16 @@ import { RingLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
+// Define Facility type to avoid using "any"
+interface Facility {
+  _id: string;
+  name: string;
+  location: string;
+  image: string;
+  rating: number;
+  pricePerHour: number;
+}
+
 const TopRatedFacilities: React.FC = () => {
   const { data, isLoading, error } = useGetTopRatedFacilitiesQuery(undefined);
 
@@ -40,6 +50,7 @@ const TopRatedFacilities: React.FC = () => {
     );
   }
 
+  // Enhanced error handling
   if (error && "data" in error) {
     const fetchError = error as FetchBaseQueryError;
     if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
@@ -48,7 +59,22 @@ const TopRatedFacilities: React.FC = () => {
           No Facilities At all!!
         </div>
       );
+    } else {
+      return (
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center">
+          An error occurred while fetching facilities. Please try again later.
+        </div>
+      );
     }
+  }
+
+  // Handle case when there's no facilities data
+  if (!data?.data || data.data.length === 0) {
+    return (
+      <div className="bg-yellow-100 text-yellow-700 p-4 rounded-lg text-center">
+        No Facilities Available at the moment.
+      </div>
+    );
   }
 
   return (
@@ -57,12 +83,12 @@ const TopRatedFacilities: React.FC = () => {
         Top Rated Facilities
       </h2>
       <Slider {...settings}>
-        {data?.data?.map((facility: any) => (
+        {data.data.map((facility: Facility) => (
           <div key={facility._id} className="relative p-6 w-full">
             <div
               className="bg-cover bg-center h-[400px] rounded-lg shadow-lg overflow-hidden"
               style={{
-                backgroundImage: `url(${facility?.image})`,
+                backgroundImage: `url(${facility.image})`,
               }}
             >
               <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center p-4 rounded-lg">
