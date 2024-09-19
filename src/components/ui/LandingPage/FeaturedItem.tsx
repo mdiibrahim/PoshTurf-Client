@@ -52,6 +52,7 @@ const TopRatedFacilities: React.FC = () => {
 
   // Enhanced error handling
   if (error && "data" in error) {
+    console.log(error);
     const fetchError = error as FetchBaseQueryError;
     if (fetchError?.data && (fetchError.data as any).statusCode === 404) {
       return (
@@ -67,6 +68,7 @@ const TopRatedFacilities: React.FC = () => {
       );
     }
   }
+  console.log(data.data);
 
   // Handle case when there's no facilities data
   if (!data?.data || data.data.length === 0) {

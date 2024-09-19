@@ -49,6 +49,7 @@ const CustomerTestimonial: React.FC = () => {
       );
     }
   }
+  console.log(data.data);
 
   // Handle case when there's no testimonials data
   if (!data?.data || data.data.length === 0) {
